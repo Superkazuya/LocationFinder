@@ -88,36 +88,6 @@ extension UITextField {
     }
 }
 
-extension UISearchBar: UISearchBarDelegate {
-    public func rac_bindAction<Input, Output, Error: ErrorType>(action: Action<Input, Output, Error>, input: ()->Input) {
-        self.rac_signalForSearchBarReturnButton().startWithNext{
-            action.apply(input()).start()
-        }
-    }
-    
-    public var rac_text: MutableProperty<String> {
-        delegate = self
-        return lazyMutableProperty(self, key: &AssociationKey.text, setter: { self.text = $0 }, getter: { self.text ?? "" })
-    }
-
-    public func rac_signalForSearchBarText() -> SignalProducer<String, NoError>
-    {
-        delegate = self
-        let textRacSignal = self.rac_signalForSelector("searchBar:textDidChange:", fromProtocol: UISearchBarDelegate.self)
-        return textRacSignal.toSignalProducer()
-            .map { ($0 as! RACTuple).second as! String }.ignoreError()
-    }
-    public func rac_signalForSearchBarReturnButton() -> SignalProducer<(), NSError>
-    {
-        delegate = self
-        let returnButtonSignal = self.rac_signalForSelector("searchBarSearchButtonClicked:", fromProtocol: UISearchBarDelegate.self)
-        return returnButtonSignal.toSignalProducer() .map {_ in ()}
-    }
-}
-
-//constraint
-
-
 extension SignalType {
     public func animateWithDuration(duration: NSTimeInterval)-> Signal<Value, Error>
     {

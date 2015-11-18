@@ -2,13 +2,13 @@ import UIKit
 import MapKit
 import ReactiveCocoa
 
-class ViewController: ViewControllerWithKBLayoutGuide, MKMapViewDelegate, UISearchBarDelegate {
+class ViewController: ViewControllerWithKBLayoutGuide, MKMapViewDelegate{
     @IBOutlet weak var mapView: MKMapView!
 
     var topInfoBar = UIView()
     var topInfoBarText = UILabel()
     var tableView =  UITableView()
-    var searchBar =  UISearchBar()
+    var searchBar =  UITextField()
     
     var tablewViewHeight: NSLayoutConstraint!
     var action: CocoaAction!
@@ -33,9 +33,15 @@ class ViewController: ViewControllerWithKBLayoutGuide, MKMapViewDelegate, UISear
         mapView.delegate = self
         mapView.showsUserLocation = true
         
-        searchBar.delegate = self
+        //searchBar
+        searchBar.alpha = 0
         searchBar.placeholder = "Enter a place here, e.g. Cafe"
+        searchBar.textAlignment = .Center
         searchBar.keyboardType = UIKeyboardType.Default
+        searchBar.clearButtonMode = .WhileEditing
+        
+        
+        //location
         locationManager.requestWhenInUseAuthorization()
         //stub
         
@@ -71,30 +77,29 @@ class ViewController: ViewControllerWithKBLayoutGuide, MKMapViewDelegate, UISear
             .map(Optional.init)
         
         viewModel.userLocation.producer
-            .ignoreNil().startWithNext{b in
-            let alpha:CGFloat = true ? 1:0
-            UIView.animateWithDuration(0.3, delay: 0, options: .BeginFromCurrentState, animations: {[weak self] in self?.searchBar.alpha = alpha}, completion: nil)
-        }
+            .ignoreNil().take(1).startWithNext{[weak self] _ in self?.toggleSearchBarVisibility(true) }
         
-        viewModel.searchText <~ searchBar.rac_signalForSearchBarText().map(Optional.init)
+        viewModel.searchText <~ searchBar.rac_text.producer.map(Optional.init)
         
-        //action = CocoaAction(viewModel.searchAction!) {[weak self] _ in self?.searchBar.text ?? "" }
-        searchBar.rac_bindAction(viewModel.searchAction) {[weak self] _ in self?.searchBar.text ?? "" }
+        action = CocoaAction(viewModel.searchAction!) {[weak self] _ in self?.searchBar.text ?? "" }
+        searchBar.addTarget(action, action: CocoaAction.selector, forControlEvents: .PrimaryActionTriggered)
         
         
+        viewModel.searchAction.events.observe {_ in self.searchBar.resignFirstResponder()}
         //out
         viewModel.errorMessage.producer.ignoreNil()
             .on(event: {print($0)})
         .startWithNext(topInfoBarShowErrorMessage)
         
         mapView.rac_annotaions <~ viewModel.mapItems.producer.map{i in i.map {$0.placemark}}
-        mapView.rac_regionAnimated <~ rac_signalForUserLocation().map{MKCoordinateRegion(center: $0.coordinate, span: self.viewModel.searchRegionSpan.value)}.takeUntilReplacement(viewModel.mapViewRegion.producer.ignoreNil())
+        mapView.rac_regionAnimated <~ rac_signalForUserLocation()
+            .map{MKCoordinateRegion(center: $0.coordinate, span: self.viewModel.searchRegionSpan.value)}
+            .takeUntilReplacement(viewModel.mapViewRegion.producer.ignoreNil())
     }
     
     
     func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) { }
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) { }
     
     
     
