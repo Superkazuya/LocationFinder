@@ -41,11 +41,13 @@ class ViewControllerWithKBLayoutGuide: UIViewController {
         let animationCurve = (userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).integerValue
         let animationDuration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         
+        let end = self.view.convertRect(endFrame, fromCoordinateSpace: self.view.window!)
+        
         let options = UIViewAnimationOptions(rawValue: UInt(animationCurve << 16))
         UIView.animateWithDuration(animationDuration, delay: 0, options: options, animations:
             {[weak self] in
-                self?.top.constant = endFrame.origin.y
-                self?.height.constant = endFrame.height
+                self?.top.constant = end.origin.y
+                self?.height.constant = end.height
                 self?.view.layoutIfNeeded()
             }, completion: nil)
     }

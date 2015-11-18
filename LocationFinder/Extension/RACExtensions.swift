@@ -134,7 +134,7 @@ private func cast<T>(object: AnyObject?) -> T
 
 extension MKMapViewDelegate where Self: NSObject
 {
-    public func rac_signalForUserLocation() -> SignalProducer<MKUserLocation, NoError> {
+    public func signalUserLocation() -> SignalProducer<MKUserLocation, NoError> {
         let locationSignal = self.rac_signalForSelector("mapView:didUpdateUserLocation:", fromProtocol: MKMapViewDelegate.self).toSignalProducer()
         
         //let errorSignal: SignalProducer<NSError, NoError> = self.rac_signalForSelector("mapView:didFailToLocateUserWithError", fromProtocol: MKMapViewDelegate.self).toSignalProducer()
@@ -146,12 +146,12 @@ extension MKMapViewDelegate where Self: NSObject
             .map (cast)
     }
     
-    public func rac_signalForRegionDidChangedAnimated() -> SignalProducer<(), NSError> {
+    public func signalRegionDidChangedAnimated() -> SignalProducer<(), NSError> {
         let signal = self.rac_signalForSelector("mapView:regionDidChangeAnimated:", fromProtocol: MKMapViewDelegate.self)
         return signal.toSignalProducer().map{_ in ()}
     }
     
-    public func rac_signalForDidAddAnnotationViews() ->SignalProducer<[MKAnnotationView], NoError>
+    public func signalDidAddAnnotationViews() ->SignalProducer<[MKAnnotationView], NoError>
     {
         return self.rac_signalForSelector("mapView:didAddAnnotationViews:", fromProtocol: MKMapViewDelegate.self).toSignalProducer()
         .ignoreError()
@@ -159,20 +159,19 @@ extension MKMapViewDelegate where Self: NSObject
     }
     
     
-    public func rac_signalForDidSelectAnnotationView() ->SignalProducer<MKAnnotationView, NoError>
+    public func signalDidSelectAnnotationView() ->SignalProducer<MKAnnotationView, NoError>
     {
         return self.rac_signalForSelector("mapView:didSelectAnnotationView:", fromProtocol: MKMapViewDelegate.self).toSignalProducer()
         .ignoreError()
         .map(cast)
     }
     
-     public func rac_signalForDidDeselectAnnotationView() ->SignalProducer<MKAnnotationView, NoError>
+     public func signalDidDeselectAnnotationView() ->SignalProducer<MKAnnotationView, NoError>
     {
         return self.rac_signalForSelector("mapView:didDeselectAnnotationView:", fromProtocol: MKMapViewDelegate.self).toSignalProducer()
         .ignoreError()
         .map(cast)
     }
-    
     
 }
 

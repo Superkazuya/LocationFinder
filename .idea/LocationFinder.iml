@@ -6,9 +6,12 @@
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/Assets.xcassets" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/Base.lproj/LaunchScreen.storyboard" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/Base.lproj/Main.storyboard" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LocationFinder/Constant.swift" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LocationFinder/Extension/RACExtensions.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/Info.plist" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/Keyboard/Keyboard.swift" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/LocationFinder/RACExtensions.swift" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LocationFinder/Model/Model.swift" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LocationFinder/TintTextField.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/ViewController.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/ViewModel.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinderTests/Info.plist" isTestSource="false" />

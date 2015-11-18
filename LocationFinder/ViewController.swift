@@ -8,7 +8,7 @@ class ViewController: ViewControllerWithKBLayoutGuide, MKMapViewDelegate{
     var topInfoBar = UIView()
     var topInfoBarText = UILabel()
     var tableView =  UITableView()
-    var searchBar =  UITextField()
+    var searchBar =  TintTextField()
     
     var tablewViewHeight: NSLayoutConstraint!
     var action: CocoaAction!
@@ -28,18 +28,19 @@ class ViewController: ViewControllerWithKBLayoutGuide, MKMapViewDelegate{
         setupSearchBarConstraints()
         setupTopInfoBar()
         
-        
         //mapView
         mapView.delegate = self
         mapView.showsUserLocation = true
         
         //searchBar
         searchBar.alpha = 0
-        searchBar.placeholder = "Enter a place here, e.g. Cafe"
+        searchBar.setupTintColor(CONSTANT.COLOR_SCHEME.SEARCHBAR.TINT)
+        searchBar.attributedPlaceholder = NSAttributedString(string: CONSTANT.SEARCHBAR.PLACEHOLDER_TEXT, attributes: [NSForegroundColorAttributeName: UIColor.grayColor()])
+        searchBar.backgroundColor = UIColor.blackColor()
+        //searchBar.textColor = UIColor.whiteColor()
         searchBar.textAlignment = .Center
         searchBar.keyboardType = UIKeyboardType.Default
         searchBar.clearButtonMode = .WhileEditing
-        
         
         //location
         locationManager.requestWhenInUseAuthorization()
@@ -58,26 +59,29 @@ class ViewController: ViewControllerWithKBLayoutGuide, MKMapViewDelegate{
         }
     }
     
-    func topInfoBarShowErrorMessage(errorString: String)
+    func topInfoBarShowMessage(message: String, bgColor: UIColor)
     {
-        topInfoBarText.text = errorString
-        print(topInfoBar.frame)
+        topInfoBarText.text = message
+        topInfoBar.backgroundColor = CONSTANT.COLOR_SCHEME.TOPINFOBAR.ERROR_BG
+        
         UIView.animateWithDuration(0.5, delay: 0, options: .BeginFromCurrentState,
             animations: { self.topInfoBar.alpha = 0.9 }) { _ in
             UIView.animateWithDuration(2, delay: 0.5, options: [], animations: { self.topInfoBar.alpha = 0 }, completion: nil)
         }
     }
-
     
+    func topInfoBarShowErrorMessage(errorString: String)
+    {
+        topInfoBarShowMessage(errorString, bgColor: CONSTANT.COLOR_SCHEME.TOPINFOBAR.ERROR_BG)
+    }
     
-
     private func bindViewModel()
     {
-        viewModel.userLocation <~ rac_signalForUserLocation()
+        viewModel.userLocation <~ signalUserLocation()
             .map(Optional.init)
         
-        viewModel.userLocation.producer
-            .ignoreNil().take(1).startWithNext{[weak self] _ in self?.toggleSearchBarVisibility(true) }
+        signalUserLocation()
+            .take(1).startWithNext{[weak self] _ in self?.toggleSearchBarVisibility(true) }
         
         viewModel.searchText <~ searchBar.rac_text.producer.map(Optional.init)
         
@@ -92,8 +96,9 @@ class ViewController: ViewControllerWithKBLayoutGuide, MKMapViewDelegate{
         .startWithNext(topInfoBarShowErrorMessage)
         
         mapView.rac_annotaions <~ viewModel.mapItems.producer.map{i in i.map {$0.placemark}}
-        mapView.rac_regionAnimated <~ rac_signalForUserLocation()
-            .map{MKCoordinateRegion(center: $0.coordinate, span: self.viewModel.searchRegionSpan.value)}
+        
+        mapView.rac_regionAnimated <~ signalUserLocation()
+            .map{MKCoordinateRegion(center: $0.coordinate, span: CONSTANT.MAP.DEFAULT_MARGIN)}
             .takeUntilReplacement(viewModel.mapViewRegion.producer.ignoreNil())
     }
     
@@ -101,22 +106,17 @@ class ViewController: ViewControllerWithKBLayoutGuide, MKMapViewDelegate{
     func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) { }
     
     
-    
-    
-    
     // MARK: UI Setups
     private func setupTopInfoBar()
     {
+        topInfoBar.alpha = 0
         topInfoBar.translatesAutoresizingMaskIntoConstraints = false
-        topInfoBar.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
+        topInfoBar.topAnchor.constraintEqualToAnchor(topLayoutGuide.bottomAnchor).active = true
         topInfoBar.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
         topInfoBar.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
-        //topInfoBar.heightAnchor.constraintEqualToConstant(44)
-        
-        topInfoBar.backgroundColor = UIColor.blackColor()
-        topInfoBar.alpha = 0
         
         let textMargin: CGFloat = 8
+        topInfoBarText.text = " "
         topInfoBarText.translatesAutoresizingMaskIntoConstraints = false
         topInfoBarText.topAnchor.constraintEqualToAnchor(topInfoBar.topAnchor, constant: textMargin).active = true
         topInfoBarText.bottomAnchor.constraintEqualToAnchor(topInfoBar.bottomAnchor, constant: -textMargin).active = true
@@ -152,5 +152,6 @@ class ViewController: ViewControllerWithKBLayoutGuide, MKMapViewDelegate{
         //shouldn't be blocked by the keyboard
         //above == negative value
     }
+    
 
 }
