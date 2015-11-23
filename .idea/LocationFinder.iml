@@ -10,7 +10,9 @@
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/Extension/RACExtensions.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/Info.plist" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/Keyboard/Keyboard.swift" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LocationFinder/MapViewDelegate.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/Model/Model.swift" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LocationFinder/StatusBar.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/TintTextField.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/ViewController.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LocationFinder/ViewModel.swift" isTestSource="false" />

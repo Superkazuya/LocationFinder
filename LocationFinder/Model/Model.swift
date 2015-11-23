@@ -6,6 +6,16 @@
 import Foundation
 import MapKit
 
+extension CLLocationCoordinate2D {
+    func distanceTo(another: CLLocationCoordinate2D) -> CLLocationDistance {
+        
+        let a = CLLocation(latitude: latitude, longitude: longitude)
+        let b = CLLocation(latitude: another.latitude, longitude: another.longitude)
+        
+        return a.distanceFromLocation(b)
+    }
+}
+
 extension MKCoordinateRegion {
     var topMost: CLLocationDegrees { return center.latitude + span.latitudeDelta }
     var botMost: CLLocationDegrees { return center.latitude - span.latitudeDelta }
@@ -16,10 +26,10 @@ extension MKCoordinateRegion {
     func contains(point: CLLocationCoordinate2D) -> Bool
     {
         guard case (botMost ... topMost) = point.latitude else { return false }
-guard case (leftMost ... rightMost) = point.longitude else { return false }
+        guard case (leftMost ... rightMost) = point.longitude else { return false }
 
-return true
-}
+        return true
+    }
 }
 
 struct LocalSearchResult {
@@ -35,6 +45,8 @@ struct LocalSearchResult {
 
     var locations: [MKMapItem] = []
     //all locations with in the boundingRegion
+    
+    var hasValidResults: Bool { return locations.count > 1 }
 
     init(request: MKLocalSearchRequest, response: MKLocalSearchResponse)
     {
@@ -44,7 +56,7 @@ struct LocalSearchResult {
         boundingRegion = getBoundingRegion()
         locations = response.mapItems.filter { boundingRegion.contains($0.placemark.coordinate) }
     }
-
+    
     private func getBoundingRegion() -> MKCoordinateRegion
     //Or use request.region ???
     {
@@ -67,5 +79,30 @@ struct LocalSearchResult {
 
         return MKCoordinateRegion(center: center, span: span)
     }
+}
 
+//has to be class. feels bad man
+class MapAnnotation: NSObject, MKAnnotation{
+    let coordinate: CLLocationCoordinate2D
+    let title: String?
+    let subtitle: String?
+    let distance: CLLocationDistance
+    let mapItem: MKMapItem
+    
+    init(mapItem: MKMapItem, currentLocaction: CLLocationCoordinate2D) {
+        self.mapItem = mapItem
+        self.coordinate = mapItem.placemark.coordinate
+        self.title = mapItem.name
+        self.subtitle = mapItem.placemark.title
+        self.distance = mapItem.placemark.coordinate.distanceTo(currentLocaction)
+    }
+}
+
+func == (a: MapAnnotation, b: MapAnnotation)->Bool
+{
+    guard a.title == b.title else { return false }
+    
+    guard a.coordinate.distanceTo(b.coordinate) < 0.01 else {return false}
+    
+    return true
 }

@@ -17,6 +17,11 @@
 		44EADD4034132B1C6098C706 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EADA6454ADC91F41B6605D /* Model.swift */; };
 		44EADD66CABEA497B25EB1CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EAD8AE154A31DC4DBE374C /* AppDelegate.swift */; };
 		44EADE15B206A1218F170C35 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EADF8BA9BAD27361463696 /* ViewController.swift */; };
+		B19E65C51C00FA5B00438511 /* ExpandCollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E65C41C00FA5B00438511 /* ExpandCollapseButton.swift */; };
+		B19E65C71C0162C500438511 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E65C61C0162C400438511 /* AnnotationView.swift */; };
+		B19FE3541BFD815B00636264 /* tableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19FE3531BFD815B00636264 /* tableViewController.swift */; };
+		B19FE3571BFD865700636264 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19FE3551BFD865700636264 /* TableViewCell.swift */; };
+		B19FE3581BFD865700636264 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B19FE3561BFD865700636264 /* TableViewCell.xib */; };
 		B1A1470C1BFCD442008C7633 /* TintTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A1470B1BFCD442008C7633 /* TintTextField.swift */; };
 		B1A1470E1BFCD6F8008C7633 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A1470D1BFCD6F8008C7633 /* Constant.swift */; };
 		B1A147101BFD00F0008C7633 /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A1470F1BFD00F0008C7633 /* MapViewDelegate.swift */; };
@@ -50,6 +55,11 @@
 		44EADE97F99BFB1B6EE772DD /* LocationFinderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFinderTests.swift; sourceTree = "<group>"; };
 		44EADEEBC487BFEE899874C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		44EADF8BA9BAD27361463696 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B19E65C41C00FA5B00438511 /* ExpandCollapseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandCollapseButton.swift; sourceTree = "<group>"; };
+		B19E65C61C0162C400438511 /* AnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
+		B19FE3531BFD815B00636264 /* tableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tableViewController.swift; sourceTree = "<group>"; };
+		B19FE3551BFD865700636264 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		B19FE3561BFD865700636264 /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		B1A1470B1BFCD442008C7633 /* TintTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TintTextField.swift; sourceTree = "<group>"; };
 		B1A1470D1BFCD6F8008C7633 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		B1A1470F1BFD00F0008C7633 /* MapViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewDelegate.swift; sourceTree = "<group>"; };
@@ -135,9 +145,9 @@
 				B1A147111BFD0724008C7633 /* StatusBar.swift */,
 				B1A1470B1BFCD442008C7633 /* TintTextField.swift */,
 				B1A1470D1BFCD6F8008C7633 /* Constant.swift */,
+				B19E65C41C00FA5B00438511 /* ExpandCollapseButton.swift */,
 				44EADCBC1C78B9E2B08A129F /* Keyboard */,
-				44EADF8BA9BAD27361463696 /* ViewController.swift */,
-				B1A1470F1BFD00F0008C7633 /* MapViewDelegate.swift */,
+				B19FE3521BFD768700636264 /* View */,
 				44EAD22D37531A621F4D091C /* ViewModel.swift */,
 				44EAD55FA49137775E014B95 /* Model */,
 				44EADF8E120FDCCD617E87F3 /* Extension */,
@@ -159,6 +169,27 @@
 				44EAD71BF6B658B2388CD4A6 /* RACExtensions.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		B19FE3521BFD768700636264 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				44EADF8BA9BAD27361463696 /* ViewController.swift */,
+				B19FE3531BFD815B00636264 /* tableViewController.swift */,
+				B1A1470F1BFD00F0008C7633 /* MapViewDelegate.swift */,
+				B19E65C61C0162C400438511 /* AnnotationView.swift */,
+				B19FE3591BFD865F00636264 /* Cell */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		B19FE3591BFD865F00636264 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B19FE3551BFD865700636264 /* TableViewCell.swift */,
+				B19FE3561BFD865700636264 /* TableViewCell.xib */,
+			);
+			name = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +240,11 @@
 				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "SITA CORP";
+				TargetAttributes = {
+					44EAD61BCA8B07FFE21BF482 = {
+						DevelopmentTeam = XD8CN453S4;
+					};
+				};
 			};
 			buildConfigurationList = 44EADEC7659AF2C7C06D242F /* Build configuration list for PBXProject "LocationFinder" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -241,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				44EADB883B1E17558AE2EAEE /* Main.storyboard in Resources */,
+				B19FE3581BFD865700636264 /* TableViewCell.xib in Resources */,
 				44EAD909397DE7BE83AEEB00 /* Assets.xcassets in Resources */,
 				44EAD7B86C46DD544AEA43CA /* LaunchScreen.storyboard in Resources */,
 			);
@@ -282,11 +319,15 @@
 				B1A147101BFD00F0008C7633 /* MapViewDelegate.swift in Sources */,
 				B1A1470C1BFCD442008C7633 /* TintTextField.swift in Sources */,
 				44EADAB90B33D257723BAE34 /* Keyboard.swift in Sources */,
+				B19E65C71C0162C500438511 /* AnnotationView.swift in Sources */,
 				44EADD66CABEA497B25EB1CF /* AppDelegate.swift in Sources */,
 				B1A1470E1BFCD6F8008C7633 /* Constant.swift in Sources */,
 				B1A147121BFD0724008C7633 /* StatusBar.swift in Sources */,
+				B19E65C51C00FA5B00438511 /* ExpandCollapseButton.swift in Sources */,
 				44EADE15B206A1218F170C35 /* ViewController.swift in Sources */,
 				44EAD18D13A55F83FA7558D9 /* ViewModel.swift in Sources */,
+				B19FE3541BFD815B00636264 /* tableViewController.swift in Sources */,
+				B19FE3571BFD865700636264 /* TableViewCell.swift in Sources */,
 				44EADD4034132B1C6098C706 /* Model.swift in Sources */,
 				44EADBDE1B09C193B9280F80 /* RACExtensions.swift in Sources */,
 			);
@@ -350,11 +391,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = LocationFinder/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = COM.SITACORP.LocationFinder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -402,11 +445,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = LocationFinder/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = COM.SITACORP.LocationFinder;
 				PRODUCT_NAME = "$(TARGET_NAME)";

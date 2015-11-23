@@ -1,10 +1,3 @@
-//
-//  StatusBar.swift
-//  LocationFinder
-//
-//  Created by Weiyu Huang on 11/18/15.
-//  Copyright © 2015 SITA CORP. All rights reserved.
-//
 
 import Foundation
 import UIKit

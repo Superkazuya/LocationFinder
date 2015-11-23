@@ -23,8 +23,7 @@ struct ViewModel {
     //MARK: Output
     let errorMessage = MutableProperty<String?>(nil)
     let mapViewRegion = MutableProperty<MKCoordinateRegion?>(nil)
-    let mapItems = MutableProperty<[MKMapItem]>([])
-    
+    let mapAnnotations = MutableProperty<[MapAnnotation]>([])
     
     init() {
         searchRegion <~ userLocation.producer
@@ -38,12 +37,12 @@ struct ViewModel {
             SignalProducer<LocalSearchResult, NSError> { sink, disposable in
                 let req = MKLocalSearchRequest()
                 if searchString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) == "" {
-                    sink.sendError(NSError(domain: "Search", code: 420, userInfo: [NSLocalizedDescriptionKey: "Invalid search text"]))
+                    sink.sendFailed(NSError(domain: "Search", code: 420, userInfo: [NSLocalizedDescriptionKey: "Invalid search text"]))
                     return
                 }
                 req.naturalLanguageQuery = searchString
                 guard let validSearchRegion = self.searchRegion.value else {
-                    sink.sendError(NSError(domain: "Search", code: 322, userInfo: [NSLocalizedDescriptionKey: "Invalid search region"]))
+                    sink.sendFailed(NSError(domain: "Search", code: 322, userInfo: [NSLocalizedDescriptionKey: "Invalid search region"]))
                     return
                 }
                 req.region = validSearchRegion
@@ -52,7 +51,8 @@ struct ViewModel {
                 disposable.addDisposable { search.cancel() }
                 search.startWithCompletionHandler{ response, error  in
                     if let e = error {
-                        sink.sendError(e)
+                        sink.sendFailed(e)
+                        print(e)
                         return
                     }
                     
@@ -62,19 +62,38 @@ struct ViewModel {
                         return
                     }
                     
-                    sink.sendError(NSError(domain: "Search", code: 644, userInfo: [NSLocalizedDescriptionKey: "Unknown Error While Searching"]))
+                    sink.sendFailed(NSError(domain: "Search", code: 644, userInfo: [NSLocalizedDescriptionKey: "No response data"]))
                     //unkown error
                 }
                 
             }
         }
         
-        errorMessage <~ searchAction.errors.map{ $0.userInfo[NSLocalizedDescriptionKey] as? String ?? "Unknown Error" }
-        .map(Optional.init)
+        errorMessage <~ SignalProducer<Signal<String?, NoError>, NoError> { sink, disposable in
+            sink.sendNext(self.searchAction.errors.map{ $0.localizedDescription }.map(Optional.init))
+            sink.sendNext(self.searchAction.values.filter{ !$0.hasValidResults }.map{_ in Optional("You search yielded no results")})
+        }.flatten(.Merge)
         
-        mapViewRegion <~ searchAction.values.map { res in Optional(res.boundingRegion) }
-        mapItems <~ searchAction.values.map { res in res.locations }
+        mapViewRegion <~ searchAction.values.filter{$0.hasValidResults}.map { res in Optional(res.boundingRegion) }
+        mapAnnotations <~ searchAction.values.filter{$0.hasValidResults}
+            .map { res in  res.locations.map{ MapAnnotation(mapItem: $0, currentLocaction: res.userLocationCoordinate)}.sort{a,b in a.distance < b.distance } }
 
     }
     
 }
+
+
+/*
+func CustomErrorHandler(error: NSError) -> String
+{
+    if let errorMessage = error.userInfo[NSLocalizedDescriptionKey] as? String{
+        return errorMessage
+    }
+    
+    guard error.domain == "MKErrorDomain" else { return "Unknown Error" }
+    
+    switch error {
+        case error.userInfo[MKErrorCode.PlacemarkNotFound]
+    }
+}
+*/

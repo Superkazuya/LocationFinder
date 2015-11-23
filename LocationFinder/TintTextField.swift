@@ -3,6 +3,7 @@ import UIKit
 class TintTextField: UITextField {
 
 
+    let tableViewToggleButton = ExpandButton(type: UIButtonType.Custom)
     var tintedClearImage: UIImage?
     
     required init?(coder aDecoder: NSCoder) {
@@ -12,6 +13,7 @@ class TintTextField: UITextField {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
+    
     
     func setupTintColor(tintColor: UIColor) {
         clearButtonMode = UITextFieldViewMode.WhileEditing
@@ -23,6 +25,16 @@ class TintTextField: UITextField {
         backgroundColor = UIColor.clearColor()
         self.tintColor = tintColor
         textColor = tintColor
+        
+        addSubview(tableViewToggleButton)
+        tableViewToggleButton.status = .Expanded
+        tableViewToggleButton.translatesAutoresizingMaskIntoConstraints = false
+        tableViewToggleButton.tintColor = tintColor
+        tableViewToggleButton.leadingAnchor.constraintEqualToAnchor(leadingAnchor, constant: 8).active = true
+        tableViewToggleButton.topAnchor.constraintGreaterThanOrEqualToAnchor(topAnchor, constant: 4).active = true
+        tableViewToggleButton.heightAnchor.constraintEqualToAnchor(tableViewToggleButton.widthAnchor).active = true
+        
+        tableViewToggleButton.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
     }
     
     override func layoutSubviews() {
@@ -30,17 +42,17 @@ class TintTextField: UITextField {
         tintClearImage()
     }
     
-    private func tintClearImage() {
-        for view in subviews {
-            if view is UIButton {
-                let button = view as! UIButton
-                if let uiImage = button.imageForState(.Highlighted) {
-                    if tintedClearImage == nil {
-                        tintedClearImage = tintCImage(uiImage, color: tintColor)
-                    }
-                    button.setImage(tintedClearImage, forState: .Normal)
-                    button.setImage(tintedClearImage, forState: .Highlighted)
-                }
+    
+    private func tintClearImage()
+    {
+        subviews.forEach { view in
+            guard view.dynamicType == UIButton.self else { return }
+            let button = view as! UIButton
+            if let img = button.imageForState(.Highlighted) {
+                if tintedClearImage == nil { tintedClearImage = tintCImage(img, color: tintColor) }
+                button.setImage(tintedClearImage, forState: .Normal)
+                button.setImage(tintedClearImage, forState: .Highlighted)
+                
             }
         }
     }
@@ -67,4 +79,5 @@ class TintTextField: UITextField {
         
         return tintedImage
     }
+    
 }

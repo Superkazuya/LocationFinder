@@ -98,8 +98,8 @@ extension SignalType {
                     UIView.animateWithDuration(duration, animations: {sink.sendNext(val) })
                 case .Interrupted:
                     sink.sendInterrupted()
-                case .Error(let err):
-                    sink.sendError(err)
+                case .Failed(let err):
+                    sink.sendFailed(err)
                 case .Completed:
                     sink.sendCompleted()
                 }
