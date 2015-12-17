@@ -124,13 +124,14 @@ extension AssociationKey {
     //static var text: UInt8 = 3
     //static var image: UInt8 = 4
     static var array: UInt8 = 19
-    static var MKCoordinateRegion = 20
+    static var MKCoordinateRegion: UInt8 = 20
 }
 
 private func cast<T>(object: AnyObject?) -> T
 {
     return (object as! RACTuple).second as! T
 }
+
 
 extension MKMapViewDelegate where Self: NSObject
 {
@@ -184,6 +185,6 @@ extension MKMapView
     }
     
     public var rac_regionAnimated: MutableProperty<MKCoordinateRegion> {
-        return lazyMutableProperty(self, key: &AssociationKey.MKCoordinateRegion, setter: { self.setRegion($0, animated: true)} , getter: {self.region })
+        return lazyMutableProperty(self, key: &AssociationKey.MKCoordinateRegion, setter: { self.setRegion($0, animated: true)} , getter: { self.region })
     }
 }

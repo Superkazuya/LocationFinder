@@ -9,35 +9,34 @@
 import UIKit
 
 @IBDesignable class ExpandButton: UIButton {
-    enum Status { case Expanded, Folded }
-    var status = Status.Expanded {
+    var isArrowUpward = false {
         didSet { setNeedsDisplay() }
     }
 
     func toggle() {
-        status = status == .Expanded ? .Folded : .Expanded
+        isArrowUpward = !isArrowUpward
     }
+    
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     override func drawRect(rect: CGRect) {
         // Drawing code
-        let isUpwards = status == .Folded
-        if !isUpwards {
+        if !isArrowUpward {
             let path = UIBezierPath(ovalInRect: rect)
             CONSTANT.COLOR_SCHEME.SEARCHBAR.TINT.setFill()
             path.fill()
         }
         
         let arrow = UIBezierPath()
-        (isUpwards ? CONSTANT.COLOR_SCHEME.SEARCHBAR.TINT : CONSTANT.COLOR_SCHEME.SEARCHBAR.BG_COLOR).setStroke()
+        (isArrowUpward ? CONSTANT.COLOR_SCHEME.SEARCHBAR.TINT : CONSTANT.COLOR_SCHEME.SEARCHBAR.BG_COLOR).setStroke()
         arrow.lineWidth = 3
         
         let lowerY = rect.midY + (rect.maxY - rect.midY)/4
         let upperY = rect.midY - (rect.midY - rect.minY)/4
-        let left = CGPoint(x: (rect.midX + rect.minX)/2, y: isUpwards ? lowerY : upperY)
-        let right = CGPoint(x: (rect.midX + rect.maxX)/2, y: isUpwards ? lowerY : upperY)
+        let left = CGPoint(x: (rect.midX + rect.minX)/2, y: isArrowUpward ? lowerY : upperY)
+        let right = CGPoint(x: (rect.midX + rect.maxX)/2, y: isArrowUpward ? lowerY : upperY)
         
-        let arrowPoint = CGPoint(x: rect.midX, y:  isUpwards ? upperY : lowerY)
+        let arrowPoint = CGPoint(x: rect.midX, y:  isArrowUpward ? upperY : lowerY)
         arrow.moveToPoint(left)
         
         arrow.addLineToPoint(arrowPoint)

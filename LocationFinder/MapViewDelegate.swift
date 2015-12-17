@@ -1,7 +1,7 @@
 import Foundation
 import MapKit
 
-extension ViewController {
+extension MapViewController {
     func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
     }
     
@@ -24,12 +24,12 @@ extension ViewController {
     
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        guard let a = view.annotation as? MapAnnotation, idx = viewModel.mapAnnotations.value.indexOf(a) else {return}
+        guard let a = view.annotation as? MapAnnotation, idx = viewModel.mapVM.mapAnnotations.value.indexOf(a) else {return}
         tableView.selectRowAtIndexPath(NSIndexPath(forRow: idx, inSection: 0), animated: true, scrollPosition: .Middle)
     }
     
     func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
-        guard let a = view.annotation as? MapAnnotation, idx = viewModel.mapAnnotations.value.indexOf(a) else {return}
+        guard let a = view.annotation as? MapAnnotation, idx = viewModel.mapVM.mapAnnotations.value.indexOf(a) else {return}
         tableView.deselectRowAtIndexPath(NSIndexPath(forRow: idx, inSection: 0), animated: true)
     }
 }

@@ -12,6 +12,7 @@ import MapKit
 struct CONSTANT {
     
     struct COLOR_SCHEME {
+        static let TINT = UIColor.whiteColor()
         struct SEARCHBAR {
             static let TINT = UIColor.whiteColor()
             static let PLACEHOLDER_TEXTCOLOR = UIColor.grayColor()
@@ -21,6 +22,11 @@ struct CONSTANT {
         struct TOPINFOBAR {
             static let ERROR_BG = SEARCHBAR.BG_COLOR
         }
+        
+        struct SLIDER {
+            static let TINT = UIColor.blackColor()
+        }
+        
     }
     
     struct SEARCHBAR {
@@ -31,11 +37,21 @@ struct CONSTANT {
     struct MAP {
         static let ANNOTATION_IDENTIFIER = "ANNOTATION"
         static let DEFAULT_MARGIN = MKCoordinateSpanMake(Meters2DegreeAprox(200), Meters2DegreeAprox(200))
+        static let DEFAULT_SEARCH_REGION: Double = Meters2DegreeAprox(2000)
     }
     
     struct TABLEVIEW {
         static let MAX_HEIGHT:CGFloat = 200
+        static let DEFAULT_HEIGHT: CGFloat = 200
         static let CELL_IDENTIFIER = "CELL"
+    }
+    
+    struct SLIDER {
+        static let TIP_ARROW_HALF_WIDTH: CGFloat = 4
+        static let TIP_ARROW_HEIGHT: CGFloat = 4
+        static let CORNER_RADIUS: CGFloat = 3
+        
+        static let TEXT_MARGIN: CGFloat = 6
     }
     
 }

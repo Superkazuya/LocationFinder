@@ -1,19 +1,12 @@
-//
-//  AppDelegate.swift
-//  LocationFinder
-//
-//  Created by Weiyu Huang on 11/17/15.
-//  Copyright (c) 2015 SITA CORP. All rights reserved.
-//
-
-
 import UIKit
+import Foundation
 
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var searchHistory = TrieNode<Character>()
+    
     var window: UIWindow?
 
 

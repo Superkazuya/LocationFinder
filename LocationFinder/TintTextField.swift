@@ -1,9 +1,8 @@
 import UIKit
 
-class TintTextField: UITextField {
+@IBDesignable class TintTextField: UITextField {
 
 
-    let tableViewToggleButton = ExpandButton(type: UIButtonType.Custom)
     var tintedClearImage: UIImage?
     
     required init?(coder aDecoder: NSCoder) {
@@ -13,7 +12,7 @@ class TintTextField: UITextField {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
+
     
     func setupTintColor(tintColor: UIColor) {
         clearButtonMode = UITextFieldViewMode.WhileEditing
@@ -25,16 +24,6 @@ class TintTextField: UITextField {
         backgroundColor = UIColor.clearColor()
         self.tintColor = tintColor
         textColor = tintColor
-        
-        addSubview(tableViewToggleButton)
-        tableViewToggleButton.status = .Expanded
-        tableViewToggleButton.translatesAutoresizingMaskIntoConstraints = false
-        tableViewToggleButton.tintColor = tintColor
-        tableViewToggleButton.leadingAnchor.constraintEqualToAnchor(leadingAnchor, constant: 8).active = true
-        tableViewToggleButton.topAnchor.constraintGreaterThanOrEqualToAnchor(topAnchor, constant: 4).active = true
-        tableViewToggleButton.heightAnchor.constraintEqualToAnchor(tableViewToggleButton.widthAnchor).active = true
-        
-        tableViewToggleButton.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
     }
     
     override func layoutSubviews() {
